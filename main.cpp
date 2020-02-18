@@ -2,14 +2,14 @@
 int main()
 {
     int option, size;
-    vector<vector<int>> start;
+    vector<vector<int> > start;
                                 
     cout << "Welcome to 861231381's 8-puzzle solver." << endl;
     cout << "Type '1' to use a default puzzle and '2' to enter your own puzzle" << endl;
     cin >> option;
     if(option == 1)
     {
-        vector<vector<int>> temp { { 0, 1, 2 },
+        vector<vector<int> > temp { { 0, 1, 2 },
                                 { 4, 8,3 },
                                 {7,6, 5}}; //right,down,up,left
         start = temp;

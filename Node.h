@@ -3,7 +3,7 @@
 #include <vector>
 #include <queue>
 #include <functional>
-
+#include <cstdlib>
 using namespace std;
 
 #ifndef NODE_H
@@ -12,14 +12,14 @@ using namespace std;
 class Node
 {
 public:
-	vector<vector<int>> state;
+	vector< vector<int> > state;
 	int cost = 0;
 	int index = 0;
 	int depth = 0;
 	Node();
 
-	Node(vector<vector<int>> newState, int c, int i);
-	Node(vector<vector<int>> newState, int c, int i, int d);
+	Node(vector<vector<int> > newState, int c, int i);
+	Node(vector<vector<int> > newState, int c, int i, int d);
 };
 
 struct Compare : public binary_function<Node*, Node*, bool>

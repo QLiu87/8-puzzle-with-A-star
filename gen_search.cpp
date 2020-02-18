@@ -1,5 +1,5 @@
 #include "gen_search.h"
-int mht_distance(vector<vector<int>> state, vector<vector<int>> goal)
+int mht_distance(vector<vector<int> > state, vector<vector<int> > goal)
 {
 	int moves = 0;
 	for (int i = 0; i < 3; i++)
@@ -45,7 +45,7 @@ int mht_distance(vector<vector<int>> state, vector<vector<int>> goal)
 	}
 	return moves;
 }
-int numofMisplaced(vector<vector<int>> state, vector<vector<int>> goal)
+int numofMisplaced(vector<vector<int> > state, vector<vector<int> > goal)
 {
 	int misplaced = 0;
 	for (int i = 0; i < 3; i++)
@@ -68,7 +68,7 @@ int general_search(vector<vector<int>> initial, int choice)
 	int blank_position = 0;
 	int size = 3;
 	//int startNum = 1;
-	vector<vector<int>> goal{{ 1, 2, 3 },
+	vector<vector<int> > goal{{ 1, 2, 3 },
 							 { 4, 5, 6 },
 							 { 7, 8, 0 }}; //right,down,up,left
 
@@ -171,7 +171,7 @@ int general_search(vector<vector<int>> initial, int choice)
 		if (moveRight(index, size)) //move right
 		{
 			new_index = index + 1;
-			vector<vector<int>> tempState = temp->state;
+			vector<vector<int> > tempState = temp->state;
 			int x, row, tempNum, tempCost, tempDepth,h_n;
 			cout << new_index << endl;
 			checkXY(new_index, x, row);
@@ -215,7 +215,7 @@ int general_search(vector<vector<int>> initial, int choice)
 		if (moveDown(index, size))//move down
 		{
 			new_index = index + size;
-			vector<vector<int>> tempState = temp->state;
+			vector<vector<int> > tempState = temp->state;
 			int x, row, tempNum, tempCost, tempDepth,h_n;
 			checkXY(new_index, x, row);
 			tempNum = temp->state.at(row).at(x);
@@ -252,7 +252,7 @@ int general_search(vector<vector<int>> initial, int choice)
 		if (moveUp(index, size))//move up
 		{
 			new_index = index - size;
-			vector<vector<int>> tempState = temp->state;
+			vector<vector<int> >  tempState = temp->state;
 			int x, row, tempNum, tempCost, tempDepth, h_n;
 			checkXY(new_index, x, row);
 			tempNum = temp->state.at(row).at(x);
@@ -290,7 +290,7 @@ int general_search(vector<vector<int>> initial, int choice)
 		if (moveLeft(index, size))//move left
 		{
 			new_index = index - 1;
-			vector<vector<int>> tempState = temp->state;
+			vector<vector<int> > tempState = temp->state;
 			int x, row, tempNum, tempCost, tempDepth,h_n;
 			checkXY(new_index, x, row);
 			tempNum = temp->state.at(row).at(x);
