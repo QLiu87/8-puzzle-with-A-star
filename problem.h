@@ -6,16 +6,19 @@
 
 class Problem {
    private:
-	Tree* inital_state;
+	Tree* initial_state;
 	Tree* curr_state;
 	Tree* goal_state;
    public:
-	bool moveUp();
-	bool moveDown();
-	bool moveLeft();
-	bool moveRight();
+	Problem();
+	Problem(Tree* custom);
+	bool moveUp(int);
+	bool moveDown(int);
+	bool moveLeft(int);
+	bool moveRight(int);
 	Tree* getGoal();
 	Tree* getCurr();
+	bool isGoal(Tree*);
 };
 
 #endif

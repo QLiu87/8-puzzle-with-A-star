@@ -1,5 +1,6 @@
 fndef TREE_H
 #define TREE_H
+#include "headers.h"
 class Tree{
     private:
 	vector<vector<int>> state;
@@ -13,7 +14,8 @@ class Tree{
 	vector<vector<int>> getState();
 	void setIndex(int i);
 	void setCost(int c);
-	//vector<vector<int>> setState();
+	vector<vector<int>> getState();
+	void setState(<vector<vector<int>> problem);
 };
 
 
