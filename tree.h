@@ -2,14 +2,18 @@ fndef TREE_H
 #define TREE_H
 class Tree{
     private:
-        Node * root;
-        int depth;
+	vector<vector<int>> state;
+	int cost;
+	int index;
     public:
-        Tree();
-        void generate_Tree(int depth); //Generates tree unitl depth d is reached
-        void generate_Tree(); //Generates tree until goal node is generated
-        void print_Tree(); //Prints the tree in console - no longer needed as i have shifted to GUI
-        Node *getTree();
+	Tree();
+	Tree(vector<vector<int>> problem, int c = 0, int i = 0);
+	int getIndex();
+	int getCost();
+	vector<vector<int>> getState();
+	void setIndex(int i);
+	void setCost(int c);
+	//vector<vector<int>> setState();
 };
 
 
