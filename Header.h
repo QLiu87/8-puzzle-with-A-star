@@ -8,4 +8,4 @@ bool moveUp(int index, int size);
 
 bool moveLeft(int index, int size);
 
-int checkXY(int indexNew, int&x, int&y);
+int getCoordinate(int indexNew, int&x, int&y);

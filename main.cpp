@@ -51,7 +51,7 @@ int main()
 	int searchNum = 0;
 	cin >> searchNum;
 	size = 3;
-	general_search(start,searchNum);
+	solve(start,searchNum);
 
     return 0;
 }

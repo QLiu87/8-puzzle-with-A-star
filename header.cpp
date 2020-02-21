@@ -57,7 +57,7 @@ bool moveLeft(int index, int size)
 	return true;
 }
 
-int checkXY(int indexNew, int&x, int&y)
+int getCoordinate(int indexNew, int&x, int&y)
 {
 
 	if (indexNew == 0)

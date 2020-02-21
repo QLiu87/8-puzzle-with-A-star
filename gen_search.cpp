@@ -54,7 +54,7 @@ int numofMisplaced(vector<vector<int> > state, vector<vector<int> > goal)
 		{
 			if (state.at(i).at(j) != goal.at(i).at(j))
 			{
-				misplaced = misplaced + 1;
+				misplaced++;
 
 			}
 		}
@@ -62,30 +62,18 @@ int numofMisplaced(vector<vector<int> > state, vector<vector<int> > goal)
 	return misplaced;
 }
 
-int general_search(vector<vector<int>> initial, int choice)
+int solve(vector<vector<int>> initial, int choice)
 {
-	int indexRoot = -1;
+	int indexCounter = -1;
 	int blank_position = 0;
 	int size = 3;
-	//int startNum = 1;
+
 	vector<vector<int> > goal{{ 1, 2, 3 },
 							 { 4, 5, 6 },
 							 { 7, 8, 0 }}; //right,down,up,left
 
-	/*
-	goal.resize(3, vector<int>(size, 0));
-	for (int i = 0; i < goal.size(); i++)
-	{
-		for (int j = 0; j < goal[0].size(); j++)
-		{
-			goal.at(i).at(j) = startNum;
-			startNum++;
-		}
-	}
-	goal.at(goal.size() - 1).at(goal.size() - 1) = 0;
-	*/
 	vector<Node*> explored;
-	vector<Node*> frontierCheck;
+	vector<Node*> visited;
 
 	Node* root = new Node();
 	root->state = initial;
@@ -93,36 +81,36 @@ int general_search(vector<vector<int>> initial, int choice)
 	root->depth = 0;
 	priority_queue<Node*, vector<Node*>, Compare> frontier;
 	frontier.push(root);
-	frontierCheck.push_back(root);
+	visited.push_back(root);
 	Node *temp = frontier.top();
 
 	// finding the position of zero
-	for (int i = 0; i < initial.size(); i++)
+	for (std::size_t i = 0; i < initial.size(); i++)
 	{
-		for (int j = 0; j < initial[0].size(); j++)
+		for (std::size_t j = 0; j < initial[0].size(); j++)
 		{
 			if (initial.at(i).at(j) > 0)
 			{
-				if (indexRoot == -1)
+				if (indexCounter == -1)
 				{
 					blank_position++;
 				}
 			}
 			else if (initial.at(i).at(j) == 0)
 			{
-				indexRoot = blank_position;
+				indexCounter = blank_position;
 			}
 		}
 	}
 
 	int n = 0;
-	int index = indexRoot;
+	int index = indexCounter;
 	cout << "Expanding state" << endl;
 
 	// print out the current state
-	for (int i = 0; i < temp->state.size(); i++)
+	for (std::size_t i = 0; i < temp->state.size(); i++)
 	{
-		for (int j = 0; j < temp->state[0].size(); j++)
+		for (std::size_t j = 0; j < temp->state[0].size(); j++)
 		{
 			cout << temp->state.at(i).at(j) << " ";
 		}
@@ -133,32 +121,38 @@ int general_search(vector<vector<int>> initial, int choice)
 	{
 		int new_index;
 		Node* temp = frontier.top();
+
 		//when frontier is empty, return failure
 		if (frontier.size() == 0)
 		{
 			cout << "NO solution" << endl;
 			exit(0);
 		}
+
+		//return solution
 		if (temp->state == goal)
 		{
 			cout << "Goal!!!!!!!!!!" << endl;
 			cout << endl;
-			//cout << "The total number " << frontierCheck.size() << endl;
+			//cout << "The total number " << visited.size() << endl;
 			cout << "To solve this problem the search algorithm expanded a total of " << explored.size()
 				<< " nodes." << endl;
 			cout << "The maximum number of nodes in the queue at any one time was " << frontier.size() << "." << endl;
 			cout << "The depth of the goal node was " << temp->depth << "." << endl;
 			return 1;
 		}
+
+		// add Node.state to explored
 		explored.push_back(temp);
 
+		//print the expansion state
 		if (n != 0)
 		{
 			cout << "The best state to expand with a g(n) = " << frontier.top()->depth << " and h(n) = " << frontier.top()->cost - frontier.top()->depth
 				<< " is..." << endl;
-			for (int i = 0; i < frontier.top()->state.size(); i++)
+			for (std::size_t i = 0; i < frontier.top()->state.size(); i++)
 			{
-				for (int j = 0; j < frontier.top()->state[0].size(); j++)
+				for (std::size_t j = 0; j < frontier.top()->state[0].size(); j++)
 				{
 					cout << frontier.top()->state.at(i).at(j) << " ";
 				}
@@ -168,14 +162,14 @@ int general_search(vector<vector<int>> initial, int choice)
 
 		frontier.pop();
 
+		//actions
 		if (moveRight(index, size)) //move right
 		{
 			new_index = index + 1;
 			vector<vector<int> > tempState = temp->state;
 			int x, row, tempNum, tempCost, tempDepth,h_n;
-			cout << new_index << endl;
-			checkXY(new_index, x, row);
-
+			getCoordinate(new_index, x, row);
+			cout << "x = " << x << endl << "row = " << row << endl;
 			//swap two index
 			tempNum = temp->state.at(row).at(x);
 			tempState.at(row).at(x - 1) = tempNum;
@@ -194,20 +188,20 @@ int general_search(vector<vector<int>> initial, int choice)
 			}
 			tempCost = tempDepth + h_n;
 
-			int numRe = 0;
-			for (int i = 0; i < frontierCheck.size(); i++)
+			bool newChildState = false;
+			for (std::size_t i = 0; i < visited.size(); i++)
 			{
-				if (tempState != frontierCheck.at(i)->state)
+				if (tempState == visited.at(i)->state)
 				{
-					numRe++;
+					newChildState = true;
 				}
 			}
 			//not in the frontier or explored set
-			if (numRe == (frontierCheck.size()))
+			if (!newChildState)
 			{
 				Node* child = new Node(tempState, tempCost, new_index, tempDepth);
 				frontier.push(child);
-				frontierCheck.push_back(child);
+				visited.push_back(child);
 			}
 
 		}
@@ -217,11 +211,13 @@ int general_search(vector<vector<int>> initial, int choice)
 			new_index = index + size;
 			vector<vector<int> > tempState = temp->state;
 			int x, row, tempNum, tempCost, tempDepth,h_n;
-			checkXY(new_index, x, row);
+			getCoordinate(new_index, x, row);
 			tempNum = temp->state.at(row).at(x);
 			tempState.at(row - 1).at(x) = tempNum;
 			tempState.at(row).at(x) = 0;
+
 			tempDepth = temp->depth + 1;
+
 			if (choice == 1) {
 				h_n = 1;
 			}
@@ -232,19 +228,21 @@ int general_search(vector<vector<int>> initial, int choice)
 				h_n = mht_distance(tempState, goal);
 			}
 			tempCost = tempDepth + h_n;
-			int numRe = 0;
-			for (int i = 0; i < frontierCheck.size(); i++)
+
+			bool newChildState = false;
+			for (std::size_t i = 0; i < visited.size(); i++)
 			{
-				if (tempState != frontierCheck.at(i)->state)
+				if (tempState == visited.at(i)->state)
 				{
-					numRe++;
+					newChildState = true;
 				}
 			}
-			if (numRe == (frontierCheck.size()))
+			//not in the frontier or explored set
+			if (!newChildState)
 			{
 				Node* child = new Node(tempState, tempCost, new_index, tempDepth);
 				frontier.push(child);
-				frontierCheck.push_back(child);
+				visited.push_back(child);
 			}
 
 		}
@@ -254,7 +252,7 @@ int general_search(vector<vector<int>> initial, int choice)
 			new_index = index - size;
 			vector<vector<int> >  tempState = temp->state;
 			int x, row, tempNum, tempCost, tempDepth, h_n;
-			checkXY(new_index, x, row);
+			getCoordinate(new_index, x, row);
 			tempNum = temp->state.at(row).at(x);
 			tempState.at(row + 1).at(x) = tempNum;
 			tempState.at(row).at(x) = 0;
@@ -269,21 +267,23 @@ int general_search(vector<vector<int>> initial, int choice)
 				h_n = mht_distance(tempState, goal);
 			}
 			tempCost = tempDepth + h_n;
-			int numRe = 0;
-			for (int i = 0; i < frontierCheck.size(); i++)
+
+
+			bool newChildState = false;
+			for (std::size_t i = 0; i < visited.size(); i++)
 			{
-				if (tempState != frontierCheck.at(i)->state)
+				if (tempState == visited.at(i)->state)
 				{
-					numRe++;
+					newChildState = true;
 				}
 			}
-			if (numRe == (frontierCheck.size()))
+			//not in the frontier or explored set
+			if (!newChildState)
 			{
 				Node* child = new Node(tempState, tempCost, new_index, tempDepth);
 				frontier.push(child);
-				frontierCheck.push_back(child);
+				visited.push_back(child);
 			}
-
 
 		}
 
@@ -292,7 +292,7 @@ int general_search(vector<vector<int>> initial, int choice)
 			new_index = index - 1;
 			vector<vector<int> > tempState = temp->state;
 			int x, row, tempNum, tempCost, tempDepth,h_n;
-			checkXY(new_index, x, row);
+			getCoordinate(new_index, x, row);
 			tempNum = temp->state.at(row).at(x);
 			tempState.at(row).at(x + 1) = tempNum;
 			tempState.at(row).at(x) = 0;
@@ -307,19 +307,21 @@ int general_search(vector<vector<int>> initial, int choice)
 				h_n = mht_distance(tempState, goal);
 			}
 			tempCost = tempDepth + h_n;
-			int not_visited = 0;
-			for (int i = 0; i < frontierCheck.size(); i++)
+
+			bool newChildState = false;
+			for (std::size_t i = 0; i < visited.size(); i++)
 			{
-				if (tempState != frontierCheck.at(i)->state)
+				if (tempState == visited.at(i)->state)
 				{
-					not_visited++;
+					newChildState = true;
 				}
 			}
-			if (not_visited == (frontierCheck.size()))
+			//not in the frontier or explored set
+			if (!newChildState)
 			{
 				Node* child = new Node(tempState, tempCost, new_index, tempDepth);
 				frontier.push(child);
-				frontierCheck.push_back(child);
+				visited.push_back(child);
 			}
 
 		}
