@@ -2,6 +2,7 @@
 int main()
 {
     int option, size;
+	int ending;
     vector<vector<int> > start;
                                 
     cout << "Welcome to 861231381's 8-puzzle solver." << endl;
@@ -51,7 +52,41 @@ int main()
 	int searchNum = 0;
 	cin >> searchNum;
 	size = 3;
-	solve(start,searchNum);
+	Node* solution;
+	Node* temp;
+	solution = solve(start,searchNum);
 
+	cout << "Enter 1 to see the history, else press 2 to end: ";
+	cin >> ending;
+	cout << endl;
+	stack<Node*> answerPrintout;
+	if (ending == 1) {
+		while (solution->getParent() != 0) {
+			answerPrintout.push(solution);
+			/*for (std::size_t i = 0; i < solution->state.size(); i++)
+			{
+				for (std::size_t j = 0; j < solution->state[0].size(); j++)
+				{
+					cout << solution->state.at(i).at(j) << " ";
+				}
+				cout << endl;
+			}
+			cout << endl;*/
+			solution = solution->getParent();
+		}
+		while (!answerPrintout.empty()) {
+			temp = answerPrintout.top();
+			for (std::size_t i = 0; i < temp->state.size(); i++)
+			{
+				for (std::size_t j = 0; j < temp->state[0].size(); j++)
+				{
+					cout << temp->state.at(i).at(j) << " ";
+				}
+				cout << endl;
+			}
+			cout << endl;
+			answerPrintout.pop();
+		}
+	}
     return 0;
 }

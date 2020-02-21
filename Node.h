@@ -11,15 +11,19 @@ using namespace std;
 
 class Node
 {
+private:
+	Node* parent;
 public:
+
 	vector< vector<int> > state;
 	int cost = 0;
 	int index = 0;
 	int depth = 0;
 	Node();
-
+	Node* getParent();
+	void setParent(Node*);
 	Node(vector<vector<int> > newState, int c, int i);
-	Node(vector<vector<int> > newState, int c, int i, int d);
+	Node(vector<vector<int> > newState, int c, int i, int d, Node* p = 0);
 };
 
 struct Compare : public binary_function<Node*, Node*, bool>

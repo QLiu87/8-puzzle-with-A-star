@@ -62,7 +62,7 @@ int numofMisplaced(vector<vector<int> > state, vector<vector<int> > goal)
 	return misplaced;
 }
 
-int solve(vector<vector<int>> initial, int choice)
+Node* solve(vector<vector<int>> initial, int choice)
 {
 	int indexCounter = -1;
 	int blank_position = 0;
@@ -139,7 +139,7 @@ int solve(vector<vector<int>> initial, int choice)
 				<< " nodes." << endl;
 			cout << "The maximum number of nodes in the queue at any one time was " << frontier.size() << "." << endl;
 			cout << "The depth of the goal node was " << temp->depth << "." << endl;
-			return 1;
+			return temp;
 		}
 
 		// add Node.state to explored
@@ -199,7 +199,7 @@ int solve(vector<vector<int>> initial, int choice)
 			//not in the frontier or explored set
 			if (!newChildState)
 			{
-				Node* child = new Node(tempState, tempCost, new_index, tempDepth);
+				Node* child = new Node(tempState, tempCost, new_index, tempDepth, temp);
 				frontier.push(child);
 				visited.push_back(child);
 			}
@@ -240,7 +240,7 @@ int solve(vector<vector<int>> initial, int choice)
 			//not in the frontier or explored set
 			if (!newChildState)
 			{
-				Node* child = new Node(tempState, tempCost, new_index, tempDepth);
+				Node* child = new Node(tempState, tempCost, new_index, tempDepth, temp);
 				frontier.push(child);
 				visited.push_back(child);
 			}
@@ -280,7 +280,7 @@ int solve(vector<vector<int>> initial, int choice)
 			//not in the frontier or explored set
 			if (!newChildState)
 			{
-				Node* child = new Node(tempState, tempCost, new_index, tempDepth);
+				Node* child = new Node(tempState, tempCost, new_index, tempDepth,temp);
 				frontier.push(child);
 				visited.push_back(child);
 			}
@@ -319,7 +319,7 @@ int solve(vector<vector<int>> initial, int choice)
 			//not in the frontier or explored set
 			if (!newChildState)
 			{
-				Node* child = new Node(tempState, tempCost, new_index, tempDepth);
+				Node* child = new Node(tempState, tempCost, new_index, tempDepth,temp);
 				frontier.push(child);
 				visited.push_back(child);
 			}

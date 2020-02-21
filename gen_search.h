@@ -2,4 +2,4 @@
 
 int mht_distance(vector<vector<int> >, vector<vector<int> >);
 int numofMisplaced(vector<vector<int> >, vector<vector<int> >);
-int solve(vector<vector<int> >, int choice);
+Node* solve(vector<vector<int> >, int choice);
