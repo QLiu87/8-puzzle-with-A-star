@@ -1,1 +1,4 @@
 a.out
+CMakeLists.txt
+CMakeFiles/
+CMakeCache.txt
