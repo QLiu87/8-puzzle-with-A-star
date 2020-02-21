@@ -1,4 +1,7 @@
+RUN
 a.out
 CMakeLists.txt
-CMakeFiles/
 CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
